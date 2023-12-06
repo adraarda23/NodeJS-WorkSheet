@@ -3,13 +3,13 @@ const path = require("path");
 const app = express();
 const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
-
+const dirRoot = require("./util/path");
 
 app.use("/user",userRouter);
 app.use("/admin",adminRouter);
 
 app.use((req,res,next)=>{
-    res.status(404).sendFile(path.join(__dirname,"views","notfound.html"));
+    res.status(404).sendFile(path.join(dirRoot,"views","notfound.html"));
 })
 
 
