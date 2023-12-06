@@ -1,10 +1,22 @@
-const express = require("express");
+const path = require('path');
 
-const router2 = express.Router();
-//in a forms addresses must take full address for example for this page /admin must be in link
-router2.get("/",(req,res,next)=>{
-    res.send("<h1>haha Admin Page</h1>");
-})
+const express = require('express');
+
+const rootDir = require('../util/path');
 
 
-module.exports=router2;
+const router = express.Router();
+const bodyParser = require('body-parser');
+router.use(bodyParser.urlencoded({ extended: false }));
+// /admin/add-product => GET
+router.get('/add-product', (req, res, next) => {
+  res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
+});
+
+// /admin/add-product => POST
+router.post('/add-product', (req, res, next) => {
+  console.log(req.body);
+  res.redirect('/');
+});
+
+module.exports = router;
