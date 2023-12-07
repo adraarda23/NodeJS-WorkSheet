@@ -3,9 +3,9 @@ const path = require('path');
 const express = require('express');
 
 const rootDir = require('../util/path');
-
-
 const router = express.Router();
+const products = [];
+
 const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));
 // /admin/add-product => GET
@@ -15,8 +15,9 @@ router.get('/add-product', (req, res, next) => {
 
 // /admin/add-product => POST
 router.post('/add-product', (req, res, next) => {
-  console.log(req.body);
+  products.push({title:req.body.title});
   res.redirect('/');
 });
 
-module.exports = router;
+exports.router=router;
+exports.products=products;
