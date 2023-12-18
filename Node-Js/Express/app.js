@@ -1,7 +1,4 @@
 
-
-
-
 const path = require('path');
 
 const express = require('express');
@@ -14,7 +11,7 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const MONGODB_URI =
-  'mongodb+srv://ardaaydinkilinc:<password>@cluster0.1j84dwq.mongodb.net/shop?retryWrites=true&w=majority';
+  'mongodb+srv://ardaaydinkilinc:<passkey>@cluster0.1j84dwq.mongodb.net/shop?retryWrites=true&w=majority';
 
 const app = express();
 const store = new MongoDBStore({
@@ -41,7 +38,10 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  User.findById('657c83ab69a817363cf11cd8')
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
     .then(user => {
       req.user = user;
       next();
@@ -75,4 +75,3 @@ mongoose
   .catch(err => {
     console.log(err);
   });
-
