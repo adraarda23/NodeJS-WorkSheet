@@ -11,7 +11,7 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const MONGODB_URI =
-  'mongodb+srv://ardaaydinkilinc:<passkey>@cluster0.1j84dwq.mongodb.net/shop?retryWrites=true&w=majority';
+  'mongodb+srv://ardaaydinkilinc:<password>@cluster0.1j84dwq.mongodb.net/shop?retryWrites=true&w=majority';
 
 const app = express();
 const store = new MongoDBStore({
@@ -58,18 +58,7 @@ app.use(errorController.get404);
 mongoose
   .connect(MONGODB_URI)
   .then(result => {
-    User.findOne().then(user => {
-      if (!user) {
-        const user = new User({
-          name: 'Max',
-          email: 'max@test.com',
-          cart: {
-            items: []
-          }
-        });
-        user.save();
-      }
-    });
+    
     app.listen(3000);
   })
   .catch(err => {
