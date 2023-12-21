@@ -55,10 +55,10 @@ app.use((req, res, next) => {
 });
 
 app.use((req,res,next)=>{
-  res.locals.isAuthenticated=req.session.isAuthenticated;
-  res.locals.csrfToken=req.csrfToken();
+  res.locals.isAuthenticated = req.session.isAuthenticated || false;
+  res.locals.csrfToken = req.csrfToken();
   next();
-})
+});
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);

@@ -6,14 +6,14 @@ const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const User = require('../models/user');
 
-// const transporter = nodemailer.createTransport(
-//   sendgridTransport({
-//     auth: {
-//       api_key:
-//         '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'
-//     }
-//   })
-// );
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        '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'
+    }
+  })
+);
 
 exports.getLogin = (req, res, next) => {
   let message = req.flash('error');
@@ -57,9 +57,12 @@ exports.postLogin = (req, res, next) => {
         .then(doMatch => {
           if (doMatch) {
             req.session.isLoggedIn = true;
+            req.session.isAuthenticated = true;
             req.session.user = user;
             return req.session.save(err => {
-              console.log(err);
+              if(err){
+                console.log(err);
+              }
               res.redirect('/');
             });
           }
@@ -98,7 +101,7 @@ exports.postSignup = (req, res, next) => {
           return user.save();
         })
         .then(result => {
-          res.redirect('/login');
+          // res.redirect('/login');
           // return transporter.sendMail({
           //   to: email,
           //   from: 'shop@node-complete.com',
@@ -154,8 +157,8 @@ exports.postReset = (req, res, next) => {
         return user.save();
       })
       .then(result => {
+        console.log(`http://localhost:3000/reset/${token}`);
         res.redirect('/');
-        console.log(`http://localhost:3000/reset/${token}`)
         // transporter.sendMail({
         //   to: req.body.email,
         //   from: 'shop@node-complete.com',
