@@ -1,19 +1,18 @@
 
 const path = require('path');
 const flash = require("connect-flash");
-
+require('dotenv').config({ path: './secret.env'})
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 const csrf = require("csurf");
 
 const MONGODB_URI =
-  'mongodb+srv://ardaaydinkilinc:<password>@cluster0.1j84dwq.mongodb.net/shop?retryWrites=true&w=majority';
+  `mongodb+srv://ardaaydinkilinc:${process.env.DATABASE_PASSWORD}@cluster0.1j84dwq.mongodb.net/shop?retryWrites=true&w=majority`;
 
 const app = express();
 const store = new MongoDBStore({
